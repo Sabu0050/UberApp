@@ -39,7 +39,7 @@ public class CustomerRegistration extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                 if(user!=null){
-                    Intent intent = new Intent(CustomerRegistration.this,MapActivity.class);
+                    Intent intent = new Intent(CustomerRegistration.this,CustomerMapActivity.class);
                     startActivity(intent);
                     finish();
                     return;
