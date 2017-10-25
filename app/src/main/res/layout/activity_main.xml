@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradiant_background"
+    tools:context="com.sabututexp.uberapp.MainActivity">
+
+    <Button
+        android:id="@+id/driverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonbgone"
+        android:text="I'm a Driver"
+        android:textColor="#F27272"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150sp" />
+
+    <Button
+        android:id="@+id/customerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonbgone"
+        android:text="I'm a Customers"
+        android:textColor="#F27272"
+        android:layout_marginBottom="60sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/driverButton"
+        android:layout_alignStart="@+id/driverButton" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="180sp"
+        android:layout_height="180sp"
+        app:srcCompat="@drawable/carlogo"
+        android:layout_above="@+id/driverButton"
+        android:layout_alignLeft="@+id/driverButton"
+        android:layout_alignStart="@+id/driverButton"
+        android:layout_marginBottom="30sp"
+        android:scaleType="fitXY"/>
+
+
+</RelativeLayout>

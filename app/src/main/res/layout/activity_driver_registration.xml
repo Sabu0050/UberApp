@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradiant_background"
+    tools:context="com.sabututexp.uberapp.DriverRegistration">
+
+    <TextView
+        android:id="@+id/backTextView"
+        android:textColor="#ffffff"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp" />
+    <LinearLayout
+        android:layout_width="320sp"
+        android:layout_height="140sp"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:id="@+id/linearLayout"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/loginEmailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="  Email"
+            android:layout_marginBottom="10sp"
+            android:layout_marginTop="20sp"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/logINButton"
+            android:layout_alignEnd="@+id/logINButton" />
+
+        <EditText
+            android:id="@+id/loginPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="10sp"
+            android:layout_alignRight="@+id/loginUserEditText"
+            android:layout_alignEnd="@+id/loginUserEditText" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/logINButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonbgone"
+        android:text="LOG IN"
+        android:textColor="#F27272"
+        android:layout_marginTop="75sp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/registrationTextView"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YOU DON'T HAVE AN ACCOUNT? REGISTER"
+        android:layout_below="@+id/logINButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp" />
+
+</RelativeLayout>
