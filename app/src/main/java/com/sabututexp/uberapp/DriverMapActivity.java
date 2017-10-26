@@ -44,7 +44,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private Button mLogoutButton;
 
-    private String customerId = "";
+    private String customerId="";
 
 
     @Override
@@ -79,11 +79,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    Map<String,Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    if(map.get("customerRideId") != null){
-                        customerId = map.get("customerRideId").toString();
+
+                        customerId = dataSnapshot.getValue().toString();
                         getAssignedPickUpLocation();
-                    }
                 }
             }
 
@@ -98,20 +96,22 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         assignedCustomerPickUpLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Object> map = (List<Object>) dataSnapshot.getValue();
-                double locationLat = 0;
-                double locationLon = 0;
-                if(map.get(0) != null){
-                    locationLat = Double.parseDouble(map.get(0).toString());
+                if(dataSnapshot.exists()){
+                    List<Object> map = (List<Object>) dataSnapshot.getValue();
+                    double locationLat = 0;
+                    double locationLon = 0;
+                    if(map.get(0) != null){
+                        locationLat = Double.parseDouble(map.get(0).toString());
+                    }
+
+                    if(map.get(1) != null){
+                        locationLon = Double.parseDouble(map.get(1).toString());
+                    }
+
+                    LatLng driverLatLon = new LatLng(locationLat,locationLon);
+
+                    mMap.addMarker(new MarkerOptions().position(driverLatLon).title("Pickup Location"));
                 }
-
-                if(map.get(1) != null){
-                    locationLon = Double.parseDouble(map.get(1).toString());
-                }
-
-                LatLng driverLatLon = new LatLng(locationLat,locationLon);
-
-                mMap.addMarker(new MarkerOptions().position(driverLatLon).title("Pickup Location"));
             }
 
             @Override
