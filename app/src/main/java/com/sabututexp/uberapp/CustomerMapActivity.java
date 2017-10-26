@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -18,8 +19,12 @@ import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,6 +55,11 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     private Boolean mRequest =false;
     private Marker pickUpMarker;
 
+    private String destination;
+    private LatLng destinationLatLng;
+
+    private SupportMapFragment mapFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +68,13 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(CustomerMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+        }else{
+            mapFragment.getMapAsync(this);
+        }
 
+        destinationLatLng = new LatLng(0.0,0.0);
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
         mRequestButton = (Button) findViewById(R.id.callButton);
         mSettingButton = (Button) findViewById(R.id.settingButton);
@@ -135,7 +150,26 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                 return;
             }
         });
-    }
+
+
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+            getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        @Override
+        public void onPlaceSelected(Place place) {
+            // TODO: Get info about the selected place.
+            destination = place.getName().toString();
+            destinationLatLng = place.getLatLng();
+        }
+        @Override
+        public void onError(Status status) {
+            // TODO: Handle the error.
+            //
+            }
+        });
+
+}
 
     private int radius = 1;
     private Boolean driverFound = false;
@@ -158,10 +192,11 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     driverFound = true;
                     driverFoundId = key;
 
-                    DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundId);
+                    DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundId).child("customerRequest");
                     String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     HashMap map = new HashMap();
                     map.put("customerRideId",customerId);
+                    map.put("destination", destination);
                     driverRef.updateChildren(map);
 
                     getDriverLocation();
@@ -171,12 +206,10 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
             @Override
             public void onKeyExited(String key) {
-
             }
 
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
-
             }
 
             @Override
@@ -191,7 +224,6 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
-
             }
         });
     }
@@ -321,5 +353,23 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     protected void onStop() {
         super.onStop();
 
+    }
+    final int LOCATION_REQUEST_CODE = 1;
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mapFragment.getMapAsync(this);
+
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please provide the permission", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+        }
     }
 }

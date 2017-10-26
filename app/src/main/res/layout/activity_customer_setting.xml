@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20sp"
     tools:context="com.sabututexp.uberapp.CustomerSettingActivity">
 
@@ -12,30 +11,40 @@
         android:id="@+id/profileImageView"
         android:layout_width="140sp"
         android:layout_height="140sp"
-        android:layout_gravity="center"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40sp"
         android:hint="Name"
-        android:layout_marginBottom="20sp"
-        android:layout_marginTop="20sp"/>
+        android:background="@null"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/phoneNumberEditText"/>
     <EditText
         android:id="@+id/phoneNumberEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40sp"
         android:hint="Phone Number"
         android:inputType="number"
-        android:layout_marginBottom="20sp"/>
+        android:background="@null"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <Button
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
+        android:background="@drawable/buttonbgone"
         android:textColor="@color/colorAccent"
         android:layout_gravity="center"
-        android:layout_marginTop="40sp"/>
+        android:layout_above="@+id/backButton"
+        android:layout_alignLeft="@+id/backButton"
+        android:layout_alignStart="@+id/backButton"
+        android:layout_marginBottom="10dp" />
 
     <Button
         android:id="@+id/backButton"
@@ -44,6 +53,9 @@
         android:text="Back"
         android:textColor="@color/colorAccent"
         android:layout_gravity="center"
-        android:layout_marginTop="10sp"/>
+        android:background="@drawable/buttonbgone"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
 
-</LinearLayout>
+</RelativeLayout>

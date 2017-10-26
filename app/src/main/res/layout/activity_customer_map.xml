@@ -11,26 +11,50 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/logoutButton"
-        android:textColor="@color/colorAccent" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Setting"
-        android:id="@+id/settingButton"
-        android:layout_gravity="right"
-        android:textColor="@color/colorAccent" />
+        android:layout_height="wrap_content">
 
+            <Button
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:background="@drawable/gradiant_background"
+                android:id="@+id/logoutButton"
+                android:textColor="#FFF"
+                android:layout_marginTop="10sp"/>
+            <Button
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Setting"
+                android:layout_marginTop="10sp"
+                android:background="@drawable/gradiant_background"
+                android:id="@+id/settingButton"
+                android:textColor="#FFF"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_below="@+id/settingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp">
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Call Uber"
+        android:background="@drawable/gradiant_background"
         android:id="@+id/callButton"
-        android:textColor="@color/colorAccent"
-        android:layout_gravity="bottom"/>
+        android:textColor="#FFF"
+        android:layout_gravity="bottom"
+        android:padding="5sp"/>
 
 </FrameLayout>

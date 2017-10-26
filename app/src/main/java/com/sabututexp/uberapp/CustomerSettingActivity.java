@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,8 @@ public class CustomerSettingActivity extends AppCompatActivity {
 
     private Uri resultUri;
 
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,7 @@ public class CustomerSettingActivity extends AppCompatActivity {
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(buttonClick);
                 saveUserInformation();
             }
         });
@@ -87,6 +91,7 @@ public class CustomerSettingActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(buttonClick);
                 finish();
                 return;
             }

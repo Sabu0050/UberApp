@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ public class DriverRegistration extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private  FirebaseAuth.AuthStateListener firebaseAuthListener;
+
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class DriverRegistration extends AppCompatActivity {
         mRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(buttonClick);
                 final String email = mEmail.getText().toString();
                 final  String password = mPassword.getText().toString();
                 mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(DriverRegistration.this, new OnCompleteListener<AuthResult>() {
@@ -70,6 +74,7 @@ public class DriverRegistration extends AppCompatActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(buttonClick);
                 final String email = mEmail.getText().toString();
                 final  String password = mPassword.getText().toString();
                 mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(DriverRegistration.this, new OnCompleteListener<AuthResult>() {
