@@ -1,5 +1,6 @@
 package com.sabututexp.uberapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -46,6 +48,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Button mLogoutButton;
 
     private String customerId="";
+    private Boolean isLogginOut = false;
 
 
     @Override
@@ -62,6 +65,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                isLogginOut = true;
+
+                driverLogout();
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(DriverMapActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -124,7 +131,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
                     LatLng driverLatLon = new LatLng(locationLat,locationLon);
 
-                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(driverLatLon).title("Pickup Location"));
+                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(driverLatLon).title("Pickup Location").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
                 }
             }
 
@@ -165,7 +172,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onLocationChanged(Location location) {
-        if (getApplicationContext() != null){
+        if (getApplicationContext()  != null){
 
 
             mLastLocation = location;
@@ -173,8 +180,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             LatLng latLon = new LatLng(location.getLatitude(),location.getLongitude());
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLon));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -187,12 +193,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 case "":
 
                     geoFireWorking.removeLocation(userId);
-                    geoFireAvailable.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    geoFireAvailable.setLocation(userId ,new GeoLocation(location.getLatitude(),location.getLongitude()));
                     break;
 
                 default:
                     geoFireAvailable.removeLocation(userId);
-                    geoFireWorking.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    geoFireWorking.setLocation(userId ,new GeoLocation(location.getLatitude(),location.getLongitude()));
 
                     break;
             }
@@ -205,7 +211,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void onConnected(@Nullable Bundle bundle) {
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(3000);
+        mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
@@ -224,15 +230,23 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void driverLogout(){
+
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("driversAvailable");
 
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(!isLogginOut) {
+            driverLogout();
+        }
 
     }
 }

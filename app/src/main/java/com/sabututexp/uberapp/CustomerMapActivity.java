@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -43,7 +44,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
-    private Button mLogoutButton, mRequestButton;
+    private Button mLogoutButton, mRequestButton, mSettingButton;
     private LatLng pickUpLocation;
 
     private Boolean mRequest =false;
@@ -60,6 +61,9 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
+        mRequestButton = (Button) findViewById(R.id.callButton);
+        mSettingButton = (Button) findViewById(R.id.settingButton);
+
 
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +75,6 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                 return;
             }
         });
-
-        mRequestButton = (Button) findViewById(R.id.callButton);
 
         mRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,12 +119,20 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
                     pickUpLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(pickUpLocation).title("Pickup from here."));
+                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(pickUpLocation).title("Pickup from here.").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
 
                     mRequestButton.setText("Searching for ride...");
 
                     getCloseDriver();
                 }
+            }
+        });
+        mSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CustomerMapActivity.this, CustomerSettingActivity.class);
+                startActivity(intent);
+                return;
             }
         });
     }
@@ -230,7 +240,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
                         mRequestButton.setText("Driver Found "+String.valueOf(distance));
                     }
-                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLon).title("driver Location"));
+                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLon).title("driver Location").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_car)));
                 }
             }
 
