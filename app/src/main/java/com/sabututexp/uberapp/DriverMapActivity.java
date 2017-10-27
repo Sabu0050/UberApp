@@ -153,7 +153,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         assignedCustomerPickUpLocationRefListener = assignedCustomerPickUpLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && customerId.equals("")){
+                if(dataSnapshot.exists() && !customerId.equals("")){
                     List<Object> map = (List<Object>) dataSnapshot.getValue();
                     double locationLat = 0;
                     double locationLon = 0;
@@ -201,8 +201,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     }
                     if(map.get("destinationLng") != null){
                         destinationLng = Double.valueOf(map.get("destinationLng").toString());
-                        destinationLatLng = new LatLng(destinationLat, destinationLng);
                     }
+                    destinationLatLng = new LatLng(destinationLat, destinationLng);
                 }
             }
 
