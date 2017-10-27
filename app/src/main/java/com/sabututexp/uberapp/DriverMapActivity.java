@@ -107,16 +107,22 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     private void getAssignedCustomer(){
+
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference assignedCustomerRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverId).child("customerRequest").child("customerRideId");
+        DatabaseReference assignedCustomerRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverId);//.child("customerRequest").child("customerRideId");
         assignedCustomerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     customerId = dataSnapshot.getValue().toString();
-                    getAssignedPickUpLocation();
+
                     getAssignedCustomerDestination();
                     getAssignedCustomerInfo();
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(map.get("customerRideId") != null){
+                        customerId = map.get("customerRideId").toString();
+                        getAssignedCustomerPickUpLocation();
+                    }
                 }else {
                     customerId = "";
                     if(pickUpMarker != null) {
@@ -143,8 +149,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     Marker pickUpMarker;
     private DatabaseReference assignedCustomerPickUpLocationRef;
     private ValueEventListener assignedCustomerPickUpLocationRefListener;
-    private void getAssignedPickUpLocation() {
-       assignedCustomerPickUpLocationRef = FirebaseDatabase.getInstance().getReference().child("customerRequest").child(customerId).child("l");
+    private void getAssignedCustomerPickUpLocation() {
+         assignedCustomerPickUpLocationRef = FirebaseDatabase.getInstance().getReference().child("customerRequest").child(customerId).child("l");
         assignedCustomerPickUpLocationRefListener = assignedCustomerPickUpLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -179,16 +185,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    /*Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    if(map.get("destination")!=null){*/
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(map.get("destination")!=null){
                         destination = dataSnapshot.getValue().toString();
                         mCustomerDestination.setText("Destination: " + destination);
                     }
                     else{
                         mCustomerDestination.setText("Destination: --");
-                    //}
+                    }
 
-                    /*Double destinationLat = 0.0;
+                    Double destinationLat = 0.0;
                     Double destinationLng = 0.0;
                     if(map.get("destinationLat") != null){
                         destinationLat = Double.valueOf(map.get("destinationLat").toString());
@@ -197,7 +203,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         destinationLng = Double.valueOf(map.get("destinationLng").toString());
                         destinationLatLng = new LatLng(destinationLat, destinationLng);
                     }
-*/
                 }
             }
 
