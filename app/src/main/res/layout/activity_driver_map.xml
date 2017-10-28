@@ -19,6 +19,15 @@
         android:background="@drawable/gradiant_background"
         android:textColor="#FFF"
         android:layout_margin="10sp"/>
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Setting"
+        android:layout_margin="10sp"
+        android:background="@drawable/gradiant_background"
+        android:id="@+id/driverSettingButton"
+        android:textColor="#FFF"/>
 
     <LinearLayout
         android:layout_width="match_parent"

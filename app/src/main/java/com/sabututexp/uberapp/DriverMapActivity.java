@@ -52,7 +52,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
 
-    private Button mLogoutButton;
+    private Button mLogoutButton, mSettingButton;
 
     private String customerId="";
     private Boolean isLogginOut = false;
@@ -88,6 +88,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mCustomerDestination = (TextView) findViewById(R.id.customerDestination);
 
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
+        mSettingButton = (Button) findViewById(R.id.driverSettingButton);
 
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -56,6 +59,12 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     private Boolean mRequest =false;
     private Marker pickUpMarker;
 
+    private LinearLayout mDriverInfo;
+
+    private ImageView mDriverProfileImage;
+
+    private TextView mDriverName, mDriverPhone, mDriverCarNumber;
+
     private String destination;
     private LatLng destinationLatLng;
 
@@ -79,6 +88,14 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
         mRequestButton = (Button) findViewById(R.id.callButton);
         mSettingButton = (Button) findViewById(R.id.settingButton);
+
+        mDriverInfo = (LinearLayout) findViewById(R.id.driverInfo);
+
+        mDriverProfileImage = (ImageView) findViewById(R.id.driverProfileImage);
+
+        mDriverName = (TextView) findViewById(R.id.driverName);
+        mDriverPhone = (TextView) findViewById(R.id.driverPhone);
+        mDriverCarNumber = (TextView) findViewById(R.id.driverCarNumber);
 
 
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -155,10 +172,6 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
             getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
-                .build();
-        autocompleteFragment.setFilter(typeFilter);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
         @Override
@@ -273,7 +286,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     location2.setLongitude(driverLatLon.longitude);
 
                     float distance = location1.distanceTo(location2);
-                    if(distance<10){
+                    if(distance<100){
                         mRequestButton.setText("Driver is here");
                     }
                     else {
