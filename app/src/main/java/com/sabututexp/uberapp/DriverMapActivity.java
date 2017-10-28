@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.geofire.GeoFire;
@@ -312,6 +313,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
+
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -349,6 +351,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
+
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -356,5 +360,24 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             driverLogout();
         }
 
+    }
+
+    final int LOCATION_REQUEST_CODE = 1;
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mapFragment.getMapAsync(this);
+
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please provide the permission", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+        }
     }
 }
