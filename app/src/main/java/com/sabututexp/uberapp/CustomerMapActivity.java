@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
@@ -46,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomerMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -116,10 +118,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                 if(mRequest){
                     mRequest = false;
                     geoQuery.removeAllListeners();
-
-                    if(driverLocationRefLocation != null) {
-                        driverLocationRef.removeEventListener(driverLocationRefLocation);
-                    }
+                    driverLocationRef.removeEventListener(driverLocationRefLocation);
 
                     if(driverFoundID != null){
                         DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID);
@@ -139,7 +138,12 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     if(pickUpMarker != null){
                         pickUpMarker.remove();
                     }
-                    mRequestButton.setText("ride canceled...");
+                    mRequestButton.setText("Call Uber");
+                    mDriverInfo.setVisibility(View.GONE);
+                    mDriverName.setText("");
+                    mDriverPhone.setText("");
+                    mDriverCarNumber.setText("");
+                    mDriverProfileImage.setImageResource(R.mipmap.ic_launcher_round);
 
                 }else {
                     mRequest = true;
@@ -219,6 +223,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     map.put("destination", destination);
                     driverRef.updateChildren(map);
                     getDriverLocation();
+                    getDriverInfo();
                     mRequestButton.setText("Looking for driver Location");
 
                 }
@@ -304,10 +309,33 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         });
     }
 
-
-
-
-
+    private void getDriverInfo(){
+        mDriverInfo.setVisibility(View.VISIBLE);
+        DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID);
+        mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(map.get("name")!=null){
+                        mDriverName.setText(map.get("name").toString());
+                    }
+                    if(map.get("phone")!=null){
+                        mDriverPhone.setText(map.get("phone").toString());
+                    }
+                    if(map.get("carNumber")!=null){
+                        mDriverCarNumber.setText(map.get("carNumber").toString());
+                    }
+                    if(map.get("profileImageUrl")!=null){
+                        Glide.with(getApplication()).load(map.get("profileImageUrl").toString()).into(mDriverProfileImage);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 
 
     @Override

@@ -107,6 +107,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         });
 
         getAssignedCustomer();
+        mSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DriverMapActivity.this,DriversSettingActivity.class);
+                startActivity(intent);
+                return;
+            }
+        });
     }
 
     private void getAssignedCustomer(){
