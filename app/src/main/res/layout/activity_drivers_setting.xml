@@ -13,24 +13,27 @@
         android:layout_height="140sp"
         android:src="@mipmap/ic_launcher_round"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp" />
 
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
+        android:layout_height="30sp"
         android:hint="Name"
         android:background="@null"
-        android:layout_marginBottom="10sp"
-        android:layout_above="@+id/phoneNumberEditText"/>
+        android:layout_below="@+id/profileImageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="22dp" />
     <EditText
         android:id="@+id/phoneNumberEditText"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
+        android:layout_height="30sp"
         android:hint="Phone Number"
         android:inputType="number"
         android:background="@null"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/nameEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <EditText
@@ -39,10 +42,34 @@
         android:layout_height="40sp"
         android:hint="DHK-H-123456"
         android:background="@null"
-        android:layout_above="@+id/confirmButton"
+        android:layout_below="@+id/phoneNumberEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="10dp" />
+        android:layout_alignParentStart="true" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:layout_below="@+id/carNumberEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UberX"
+            android:id="@+id/UberX"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UberBlack"
+            android:id="@+id/UberBlack"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UberXl"
+            android:id="@+id/UberXl"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"

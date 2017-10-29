@@ -94,6 +94,36 @@
                 </LinearLayout>
 
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioGroup"
+                android:orientation="horizontal"
+                android:layout_below="@+id/carNumberEditText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UberX"
+                    android:id="@+id/UberX"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UberBlack"
+                    android:id="@+id/UberBlack"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UberXl"
+                    android:id="@+id/UberXl"/>
+            </RadioGroup>
+        </LinearLayout>
 
         <Button
             android:layout_width="match_parent"

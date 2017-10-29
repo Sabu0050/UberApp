@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,10 +69,12 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
     private TextView mDriverName, mDriverPhone, mDriverCarNumber;
 
-    private String destination;
+    private String destination, requestService;
     private LatLng destinationLatLng;
 
     private SupportMapFragment mapFragment;
+
+    private RadioGroup mRadioGroup;
 
 
     @Override
@@ -78,7 +82,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CustomerMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -92,6 +96,8 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mSettingButton = (Button) findViewById(R.id.settingButton);
 
         mDriverInfo = (LinearLayout) findViewById(R.id.driverInfo);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        mRadioGroup.check(R.id.UberX);
 
         mDriverProfileImage = (ImageView) findViewById(R.id.driverProfileImage);
 
@@ -146,6 +152,16 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     mDriverProfileImage.setImageResource(R.mipmap.ic_launcher_round);
 
                 }else {
+
+                    int selectId = mRadioGroup.getCheckedRadioButtonId();
+
+                    final RadioButton radioButton = (RadioButton) findViewById(selectId);
+
+                    if (radioButton.getText() == null){
+                        return;
+                    }
+
+                    requestService = radioButton.getText().toString();
                     mRequest = true;
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -193,7 +209,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
 }
 
-    private double radius = 0.1;
+    private double radius = 1;
     private Boolean driverFound = false;
     private String driverFoundID;
 
@@ -211,22 +227,37 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
+                DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(key);
+                mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(!driverFound && mRequest){
-                    driverFound = true;
-                    driverFoundID = key;
+                        if (dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0) {
+                            Map<String, Object> driverMap = (Map<String, Object>) dataSnapshot.getValue();
+                            if (driverFound) {
+                                return;
+                            }
+                            if(driverMap.get("service").equals(requestService)) {
+                                driverFound = true;
+                                driverFoundID = dataSnapshot.getKey();
+                                DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID).child("customerRequest");
+                                String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                HashMap map = new HashMap();
+                                map.put("customerRideId", customerId);
+                                map.put("destination", destination);
+                                driverRef.updateChildren(map);
+                                getDriverLocation();
+                                getDriverInfo();
+                                mRequestButton.setText("Looking for driver Location");
+                            }
+                        }
+                    }
 
-                    DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID).child("customerRequest");
-                    String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    HashMap map = new HashMap();
-                    map.put("customerRideId",customerId);
-                    map.put("destination", destination);
-                    driverRef.updateChildren(map);
-                    getDriverLocation();
-                    getDriverInfo();
-                    mRequestButton.setText("Looking for driver Location");
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
 
-                }
             }
 
             @Override

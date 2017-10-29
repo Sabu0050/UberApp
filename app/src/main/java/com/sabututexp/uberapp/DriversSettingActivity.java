@@ -13,6 +13,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,10 +47,11 @@ public class DriversSettingActivity extends AppCompatActivity {
     private String mName;
     private String mPhone;
     private String mCarNumber;
-
+    private String mService;
     private String mProfileImageUrl;
 
     private Uri resultUri;
+    private RadioGroup mRadioGroup;
 
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
@@ -62,6 +65,7 @@ public class DriversSettingActivity extends AppCompatActivity {
         mNameEditText = (EditText) findViewById(R.id.nameEditText);
         mPhoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
         mCarNumberEditText = (EditText) findViewById(R.id.carNumberEditText);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         mConfirmButton = (Button) findViewById(R.id.confirmButton);
         mBackButton = (Button) findViewById(R.id.backButton);
 
@@ -120,6 +124,20 @@ public class DriversSettingActivity extends AppCompatActivity {
                         mPhone = map.get("carNumber").toString();
                         mCarNumberEditText.setText(mPhone);
                     }
+                    if(map.get("service")!=null) {
+                        mService = map.get("service").toString();
+                        switch (mService) {
+                            case "UberX":
+                                mRadioGroup.check(R.id.UberX);
+                                break;
+                            case "UberBlack":
+                                mRadioGroup.check(R.id.UberBlack);
+                                break;
+                            case "UberXl":
+                                mRadioGroup.check(R.id.UberXl);
+                                break;
+                        }
+                    }
 
                     if (map.get("profileImageUrl") != null){
                         mProfileImageUrl = map.get("profileImageUrl").toString();
@@ -139,10 +157,22 @@ public class DriversSettingActivity extends AppCompatActivity {
         mName = mNameEditText.getText().toString();
         mPhone = mPhoneNumberEditText.getText().toString();
         mCarNumber = mCarNumberEditText.getText().toString();
+
+        int selectId = mRadioGroup.getCheckedRadioButtonId();
+
+        final RadioButton radioButton = (RadioButton) findViewById(selectId);
+
+        if (radioButton.getText() == null){
+            return;
+        }
+
+        mService = radioButton.getText().toString();
+
         Map driverInfo = new HashMap();
         driverInfo.put("name",mName);
         driverInfo.put("phone",mPhone);
         driverInfo.put("carNumber",mCarNumber);
+        driverInfo.put("service", mService);
         mDriverDatabase.updateChildren(driverInfo);
 
         if(resultUri != null){

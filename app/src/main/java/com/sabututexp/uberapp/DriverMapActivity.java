@@ -350,13 +350,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("driversAvailable");
-        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("driversWorking");
-
 
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
-        GeoFire geoFire1 = new GeoFire(ref2);
-        geoFire1.removeLocation(userId);
 
     }
 
