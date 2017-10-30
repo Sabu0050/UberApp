@@ -63,8 +63,8 @@ public class DriverRegistration extends AppCompatActivity {
                             Toast.makeText(DriverRegistration.this,"Sign Up error",Toast.LENGTH_SHORT).show();
                         }else {
                             String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_id = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(user_id);
-                            current_user_id.setValue(true);
+                            DatabaseReference current_user_id = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(user_id).child("name");
+                            current_user_id.setValue(email);
                         }
                     }
                 });

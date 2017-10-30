@@ -106,7 +106,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-        getAssignedCustomer();
         mSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +114,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 return;
             }
         });
+
+        getAssignedCustomer();
     }
 
     private void getAssignedCustomer(){
@@ -124,10 +125,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         assignedCustomerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(map.get("customerRideId") != null){
-
                         customerId = map.get("customerRideId").toString();
                         getAssignedCustomerPickUpLocation();
                         getAssignedCustomerDestination();
