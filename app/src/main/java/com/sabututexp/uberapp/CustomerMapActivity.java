@@ -363,7 +363,13 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
         mRequest = false;
         geoQuery.removeAllListeners();
-        driverLocationRef.removeEventListener(driverLocationRefLocation);
+
+        try {
+            driverLocationRef.removeEventListener(driverLocationRefLocation);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if(driverFoundID != null){
             DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID).child("customerRequest");
             driverRef.removeValue();
