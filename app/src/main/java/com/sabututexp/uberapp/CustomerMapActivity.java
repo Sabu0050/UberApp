@@ -75,7 +75,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
     private SupportMapFragment mapFragment;
 
-    //private RadioGroup mRadioGroup;
+    private RadioGroup mRadioGroup;
 
 
     @Override
@@ -97,8 +97,8 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mSettingButton = (Button) findViewById(R.id.settingButton);
 
         mDriverInfo = (LinearLayout) findViewById(R.id.driverInfo);
-        //mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        //mRadioGroup.check(R.id.UberX);
+        git mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        mRadioGroup.check(R.id.UberX);
 
         mDriverProfileImage = (ImageView) findViewById(R.id.driverProfileImage);
 
@@ -129,14 +129,14 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
                 }else {
 
-                    /*int selectId = mRadioGroup.getCheckedRadioButtonId();
+                    int selectId = mRadioGroup.getCheckedRadioButtonId();
 
                     final RadioButton radioButton = (RadioButton) findViewById(selectId);
 
                     if (radioButton.getText() == null){
                         return;
                     }
-                    requestService = radioButton.getText().toString();*/
+                    requestService = radioButton.getText().toString();
                     mRequest = true;
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -203,11 +203,11 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onKeyEntered(final String key, GeoLocation location) {
                 if (!driverFound && mRequest) {
-                    DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(key);
+                    DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(key);
                     mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            driverFound = true;
+                            /*driverFound = true;
                             driverFoundID = key;
                             DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID).child("customerRequest");
                             String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -219,9 +219,9 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                             driverRef.updateChildren(map);
                             getDriverLocation();
                             getDriverInfo();
-                            mRequestButton.setText("Looking for driver Location");
+                            mRequestButton.setText("Looking for driver Location");*/
 
-                            /*if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                            if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                                 Map<String, Object> driverMap = (Map<String, Object>) dataSnapshot.getValue();
                                 if (driverFound) {
                                     return;
@@ -235,12 +235,14 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                                     HashMap map = new HashMap();
                                     map.put("customerRideId", customerId);
                                     map.put("destination", destination);
+                                    map.put("destinationLat", destinationLatLng.latitude);
+                                    map.put("destinationLng", destinationLatLng.longitude);
                                     driverRef.updateChildren(map);
                                     getDriverLocation();
                                     getDriverInfo();
                                     mRequestButton.setText("Looking for driver Location");
                                 }
-                            }*/
+                            }
                         }
 
                         @Override
