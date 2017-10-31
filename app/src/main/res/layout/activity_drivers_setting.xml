@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10sp"
-    tools:context="com.sabututexp.uberapp.DriversSettingActivity">
+    tools:context="com.sabututexp.uberapp.activities.DriversSettingActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"

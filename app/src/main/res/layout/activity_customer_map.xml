@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sabututexp.uberapp.CustomerMapActivity">
+    tools:context="com.sabututexp.uberapp.activities.CustomerMapActivity">
 
     <fragment
         android:id="@+id/map"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttons"
-            android:layout_margin="10sp">
+            android:padding="5sp">
             <Button
                 android:layout_alignParentLeft="true"
                 android:layout_weight="1"
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Setting"
+                android:text="History"
                 android:background="@drawable/gradiant_background"
                 android:id="@+id/historyButton"
                 android:textColor="#FFF"/>

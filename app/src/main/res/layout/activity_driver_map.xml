@@ -4,30 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sabututexp.uberapp.DriverMapActivity">
+    tools:context="com.sabututexp.uberapp.activities.DriverMapActivity">
 
     <fragment
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/logoutButton"
-        android:background="@drawable/gradiant_background"
-        android:textColor="#FFF"
-        android:layout_margin="10sp"/>
-    <Button
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Setting"
-        android:layout_margin="10sp"
-        android:background="@drawable/gradiant_background"
-        android:id="@+id/driverSettingButton"
-        android:textColor="#FFF"/>
+        android:id="@+id/buttons"
+        android:padding="5sp">
+        <Button
+
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:id="@+id/logoutButton"
+            android:background="@drawable/gradiant_background"
+            android:textColor="#FFF"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:background="@drawable/gradiant_background"
+            android:id="@+id/historyButton"
+            android:textColor="#FFF"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:background="@drawable/gradiant_background"
+            android:id="@+id/driverSettingButton"
+            android:textColor="#FFF"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="100sp"
             android:layout_height="100sp"

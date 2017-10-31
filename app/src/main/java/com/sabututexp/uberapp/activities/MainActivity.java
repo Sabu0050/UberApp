@@ -1,10 +1,12 @@
-package com.sabututexp.uberapp;
+package com.sabututexp.uberapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.sabututexp.uberapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

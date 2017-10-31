@@ -1,4 +1,4 @@
-package com.sabututexp.uberapp;
+package com.sabututexp.uberapp.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,7 +27,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -47,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sabututexp.uberapp.R;
 
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +166,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomerMapActivity.this, HistoryActivity.class);
-                //intent.putExtra("customerOrDriver", "Customers");
+                intent.putExtra("customerOrDriver", "Customers");
                 startActivity(intent);
                 return;
             }

@@ -1,17 +1,13 @@
-package com.sabututexp.uberapp;
+package com.sabututexp.uberapp.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -48,13 +44,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sabututexp.uberapp.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.sabututexp.uberapp.R.id.callButton;
 import static com.sabututexp.uberapp.R.id.map;
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, RoutingListener {
@@ -64,7 +60,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
 
-    private Button mLogoutButton, mSettingButton, mRideStatusButton;
+    private Button mLogoutButton, mSettingButton, mRideStatusButton, mHistoryButton;
 
     private int status = 0;
 
@@ -78,7 +74,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private TextView mCustomerName, mCustomerPhone, mCustomerDestination;
 
-    private LatLng destinationLatLng;
+    private LatLng destinationLatLng, pickUpLatLon;
 
     private SupportMapFragment mapFragment;
 
@@ -148,6 +144,15 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DriverMapActivity.this,DriversSettingActivity.class);
+                startActivity(intent);
+                return;
+            }
+        });
+        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DriverMapActivity.this, HistoryActivity.class);
+                intent.putExtra("customerOrDriver", "Riders");
                 startActivity(intent);
                 return;
             }
@@ -251,7 +256,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         locationLon = Double.parseDouble(map.get(1).toString());
                     }
 
-                    LatLng pickUpLatLon = new LatLng(locationLat,locationLon);
+                    pickUpLatLon = new LatLng(locationLat,locationLon);
 
                     pickUpMarker = mMap.addMarker(new MarkerOptions().position(pickUpLatLon).title("Pickup Location").snippet("some").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
                     getRouteToMarker(pickUpLatLon);
@@ -525,8 +530,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         map.put("driver", userId);
         map.put("customer", customerId);
         map.put("rating", 0);
-
+        map.put("timestamp", getCurrentTimestamp());
+        map.put("destination", destination);
+        map.put("location/from/lat", pickUpLatLon.latitude);
+        map.put("location/from/lng", pickUpLatLon.longitude);
+        map.put("location/to/lat", destinationLatLng.latitude);
+        map.put("location/to/lng", destinationLatLng.longitude);
         historyRef.child(requestId).updateChildren(map);
 
+    }
+    private Long getCurrentTimestamp() {
+        Long timestamp = System.currentTimeMillis()/1000;
+        return timestamp;
     }
 }
