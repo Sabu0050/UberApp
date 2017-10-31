@@ -75,7 +75,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
     private SupportMapFragment mapFragment;
 
-    private RadioGroup mRadioGroup;
+    //private RadioGroup mRadioGroup;
 
 
     @Override
@@ -90,15 +90,15 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         }else{
             mapFragment.getMapAsync(this);
         }
-
         destinationLatLng = new LatLng(0.0,0.0);
+
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
         mRequestButton = (Button) findViewById(R.id.callButton);
         mSettingButton = (Button) findViewById(R.id.settingButton);
 
         mDriverInfo = (LinearLayout) findViewById(R.id.driverInfo);
-        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        mRadioGroup.check(R.id.UberX);
+        //mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        //mRadioGroup.check(R.id.UberX);
 
         mDriverProfileImage = (ImageView) findViewById(R.id.driverProfileImage);
 
@@ -129,14 +129,14 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
                 }else {
 
-                    int selectId = mRadioGroup.getCheckedRadioButtonId();
+                    /*int selectId = mRadioGroup.getCheckedRadioButtonId();
 
                     final RadioButton radioButton = (RadioButton) findViewById(selectId);
 
                     if (radioButton.getText() == null){
                         return;
                     }
-                    requestService = radioButton.getText().toString();
+                    requestService = radioButton.getText().toString();*/
                     mRequest = true;
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -178,7 +178,6 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         @Override
         public void onError(Status status) {
             // TODO: Handle the error.
-            //
             }
         });
 
@@ -210,12 +209,13 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             driverFound = true;
                             driverFoundID = key;
-                            Log.i("Result", driverFoundID);
                             DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverFoundID).child("customerRequest");
                             String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             HashMap map = new HashMap();
                             map.put("customerRideId", customerId);
                             map.put("destination", destination);
+                            map.put("destinationLat", destinationLatLng.latitude);
+                            map.put("destinationLng", destinationLatLng.longitude);
                             driverRef.updateChildren(map);
                             getDriverLocation();
                             getDriverInfo();

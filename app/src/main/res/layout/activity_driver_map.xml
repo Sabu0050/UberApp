@@ -58,8 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/customerDestination"
-                android:paddingBottom="10sp"
-                android:text="Destination: --"/>
+                android:paddingBottom="10sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
