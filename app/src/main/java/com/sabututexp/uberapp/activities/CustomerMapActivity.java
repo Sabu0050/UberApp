@@ -60,7 +60,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     private LatLng pickUpLocation;
 
     private Boolean mRequest =false;
-    private Marker pickUpMarker;
+    private Marker pickUpMarker, destinationMarker;
 
     private LinearLayout mDriverInfo;
 
@@ -234,6 +234,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                                     getDriverLocation();
                                     getDriverInfo();
                                     getHasRideEnded();
+                                    destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Destination").snippet("some").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_destination)));
                                     mRequestButton.setText("Looking for driver Location");
                                 }
                             }
@@ -410,6 +411,9 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         }
         if (mDriverMarker != null){
             mDriverMarker.remove();
+        }
+        if(destinationMarker != null){
+            destinationMarker.remove();
         }
         mRequestButton.setText("Call Uber");
         mDriverInfo.setVisibility(View.GONE);
