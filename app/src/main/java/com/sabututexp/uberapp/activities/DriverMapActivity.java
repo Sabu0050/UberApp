@@ -203,6 +203,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
     }
+    Marker destinationMarker;
     private void getAssignedCustomerDestination(){
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference assignedCustomerRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverId).child("customerRequest");
@@ -221,13 +222,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     Double destinationLat = 0.0;
                     Double destinationLng = 0.0;
 
-                    if(map.get("destinationLatLng") != null){
+                    if(map.get("destinationLat") != null){
                         destinationLat = Double.valueOf(map.get("destinationLat").toString());
                     }
                     if(map.get("destinationLng") != null){
                         destinationLng = Double.valueOf(map.get("destinationLng").toString());
                     }
                     destinationLatLng = new LatLng(destinationLat, destinationLng);
+                    destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Destination").snippet("some").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_destination)));
                 }
             }
 
@@ -350,7 +352,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             LatLng latLon = new LatLng(location.getLatitude(),location.getLongitude());
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLon));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference refAvailable = FirebaseDatabase.getInstance().getReference("driversAvailable");
@@ -508,6 +510,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         if(pickUpMarker != null){
             pickUpMarker.remove();
+        }
+        if(destinationMarker != null){
+            destinationMarker.remove();
         }
         if(assignedCustomerPickUpLocationRefListener != null) {
             assignedCustomerPickUpLocationRef.removeEventListener(assignedCustomerPickUpLocationRefListener);
