@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/driverInfo"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:background="@android:color/white"
@@ -93,19 +93,29 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/driverName"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"/>
+                        android:paddingTop="20sp"
+                        android:text="Name"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverPhone"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"/>
+                        android:paddingTop="20sp"
+                        android:text="Phone Number"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverCarNumber"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"/>
+                        android:paddingTop="20sp"
+                        android:text="Car Number"/>
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingBar"
+                        android:layout_gravity="center"
+                        android:numStars="5"
+                        android:stepSize="0.1"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,8 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
 
     private RadioGroup mRadioGroup;
 
+    private RatingBar mRatingBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         mRadioGroup.check(R.id.UberX);
 
+        mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         mDriverProfileImage = (ImageView) findViewById(R.id.driverProfileImage);
 
         mDriverName = (TextView) findViewById(R.id.driverName);
@@ -335,19 +339,31 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    if(map.get("name")!=null){
-                        mDriverName.setText(map.get("name").toString());
+                    //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(dataSnapshot.child("name")!=null){
+                        mDriverName.setText(dataSnapshot.child("name").toString());
                     }
-                    if(map.get("phone")!=null){
-                        mDriverPhone.setText(map.get("phone").toString());
+                    if(dataSnapshot.child("phone")!=null){
+                        mDriverPhone.setText(dataSnapshot.child("phone").toString());
                     }
-                    if(map.get("carNumber")!=null){
-                        mDriverCarNumber.setText(map.get("carNumber").toString());
+                    if(dataSnapshot.child("carNumber")!=null){
+                        mDriverCarNumber.setText(dataSnapshot.child("carNumber").toString());
                     }
-                    if(map.get("profileImageUrl")!=null){
-                        Glide.with(getApplication()).load(map.get("profileImageUrl").toString()).into(mDriverProfileImage);
+                    if(dataSnapshot.child("profileImageUrl")!=null){
+                        Glide.with(getApplication()).load(dataSnapshot.child("profileImageUrl").toString()).into(mDriverProfileImage);
                     }
+                    int ratingSum = 0;
+                    int ratingTotalNumbers = 0;
+                    float ratingAvg = 0;
+                    for (DataSnapshot child: dataSnapshot.child("rating").getChildren()){
+                        ratingSum = ratingSum + Integer.valueOf(child.getValue().toString());
+                        ratingTotalNumbers++;
+                    }
+                    if(ratingTotalNumbers != 0){
+                        ratingAvg = ratingSum/ratingTotalNumbers;
+                        mRatingBar.setRating(ratingAvg);
+                    }
+
                 }
             }
             @Override
