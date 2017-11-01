@@ -1,5 +1,6 @@
 package com.sabututexp.uberapp.activities;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -65,6 +66,7 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_single);
 
+        polylines = new ArrayList<>();
         rideId = getIntent().getExtras().getString("rideId");
         mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
@@ -120,6 +122,14 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
                             if(destinationLatLng != new LatLng(0,0)){
                                 getRouteToMarker();
                             }
+                            Location start = new Location("pickupLoc");
+                            start.setLatitude(pickupLatLng.latitude);
+                            start.setLongitude(pickupLatLng.longitude);
+                            Location end = new Location("destinationLoc");
+                            end.setLatitude(destinationLatLng.latitude);
+                            end.setLongitude(destinationLatLng.longitude);
+                            double distance =start.distanceTo(end)/1000;
+                            rideDistance.setText("Distance: "+ String.format("%.1f",distance)+" km");
                         }
                     }
                 }
@@ -158,7 +168,7 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
     private String getDate(Long time) {
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.setTimeInMillis(time*1000);
-        String date = DateFormat.format("MM-dd-yyyy hh:mm", cal).toString();
+        String date = DateFormat.format("dd-MM-yyyy hh:mm", cal).toString();
         return date;
     }
     private void getRouteToMarker() {
@@ -222,7 +232,6 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
 
         mMap.addMarker(new MarkerOptions().position(pickupLatLng).title("pickup location").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
         mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("destination").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_destination)));
-
         if (polylines.size() > 0) {
             for (Polyline poly : polylines) {
                 poly.remove();
@@ -251,11 +260,11 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
     @Override
     public void onRoutingCancelled() {
     }
-    /*private void erasePolylines(){
+    private void erasePolylines(){
         for(Polyline line : polylines){
                 line.remove();
             }
             polylines.clear();
-        }*/
+        }
 
 }
