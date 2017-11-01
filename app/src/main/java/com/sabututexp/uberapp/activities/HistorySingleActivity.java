@@ -178,7 +178,7 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 historyRideInfoDb.child("rating").setValue(rating);
-                DatabaseReference mDriverRatingDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverId).child("rating");
+                DatabaseReference mDriverRatingDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Riders").child(driverId).child("rating");
                 mDriverRatingDb.child(rideId).setValue(rating);
             }
         });

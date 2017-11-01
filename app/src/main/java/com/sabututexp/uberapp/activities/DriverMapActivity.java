@@ -103,6 +103,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mLogoutButton = (Button) findViewById(R.id.logoutButton);
         mSettingButton = (Button) findViewById(R.id.driverSettingButton);
         mRideStatusButton = (Button) findViewById(R.id.pickupButton);
+        mHistoryButton = (Button) findViewById(R.id.historyButton);
 
         mRideStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +222,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     Double destinationLng = 0.0;
 
                     if(map.get("destinationLatLng") != null){
-                        destinationLat = Double.valueOf(map.get("destinationLatLng").toString());
+                        destinationLat = Double.valueOf(map.get("destinationLat").toString());
                     }
                     if(map.get("destinationLng") != null){
                         destinationLng = Double.valueOf(map.get("destinationLng").toString());
@@ -349,7 +350,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             LatLng latLon = new LatLng(location.getLatitude(),location.getLongitude());
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLon));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
 
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference refAvailable = FirebaseDatabase.getInstance().getReference("driversAvailable");
