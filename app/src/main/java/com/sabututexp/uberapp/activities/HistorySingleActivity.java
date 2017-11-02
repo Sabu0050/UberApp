@@ -149,10 +149,10 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
                 if(dataSnapshot.exists()){
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(map.get("name") != null){
-                        userName.setText(map.get("name").toString());
+                        userName.setText("Name: "+map.get("name").toString());
                     }
                     if(map.get("phone") != null){
-                        userPhone.setText(map.get("phone").toString());
+                        userPhone.setText("Contact: "+map.get("phone").toString());
                     }
                     if(map.get("profileImageUrl") != null){
                         Glide.with(getApplication()).load(map.get("profileImageUrl").toString()).into(userImage);

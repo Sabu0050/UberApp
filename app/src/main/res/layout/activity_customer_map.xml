@@ -87,35 +87,45 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="40sp">
+                    android:paddingLeft="30sp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverName"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"
+                        android:textColor="#000"
+                        android:paddingTop="10sp"
                         android:text="Name"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverPhone"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"
+                        android:textColor="#000"
+                        android:paddingTop="10sp"
                         android:text="Phone Number"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverCarNumber"
                         android:paddingBottom="10sp"
-                        android:paddingTop="20sp"
+                        android:textColor="#000"
+                        android:paddingTop="10sp"
                         android:text="Car Number"/>
-                    <RatingBar
+
+                    <android.support.v7.widget.AppCompatRatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ratingBar"
                         android:layout_gravity="center"
                         android:numStars="5"
-                        android:stepSize="0.1"/>
+                        android:stepSize="0.1"
+                        android:rating="3.3"
+                        android:paddingBottom="10sp"
+                        android:paddingTop="10sp"
+                        android:progressTint="@color/Red"
+                        android:secondaryProgressTint="#00000000"/>
                 </LinearLayout>
 
             </LinearLayout>

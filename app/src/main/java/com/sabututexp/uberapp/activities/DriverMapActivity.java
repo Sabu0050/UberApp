@@ -229,7 +229,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         destinationLng = Double.valueOf(map.get("destinationLng").toString());
                     }
                     destinationLatLng = new LatLng(destinationLat, destinationLng);
-                    destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Destination").snippet("some").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_destination)));
+                    destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Destination").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_destination)));
                 }
             }
 
@@ -261,7 +261,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
                     pickUpLatLon = new LatLng(locationLat,locationLon);
 
-                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(pickUpLatLon).title("Pickup Location").snippet("some").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
+                    pickUpMarker = mMap.addMarker(new MarkerOptions().position(pickUpLatLon).title("Pickup Location").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pickup)));
                     getRouteToMarker(pickUpLatLon);
                 }
             }
@@ -297,10 +297,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
                     if(map.get("name")!=null){
 
-                        mCustomerName.setText(map.get("name").toString());
+                        mCustomerName.setText("Name: "+map.get("name").toString());
                     }
                     if(map.get("phone") != null){
-                        mCustomerPhone.setText(map.get("phone").toString());
+                        mCustomerPhone.setText("Contact: "+map.get("phone").toString());
                     }
                     if (map.get("profileImageUrl") != null){
 

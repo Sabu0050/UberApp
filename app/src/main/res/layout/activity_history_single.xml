@@ -19,18 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="From - To"
+            android:textColor="#000"
             android:layout_marginBottom="20sp"
             android:id="@+id/rideLocation"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="distance"
+            android:textColor="#000"
             android:layout_marginBottom="20sp"
             android:id="@+id/rideDistance"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="date"
+            android:textColor="#000"
             android:layout_marginBottom="20sp"
             android:id="@+id/rideDate"/>
     </LinearLayout>
@@ -55,12 +58,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="name"
+                android:textColor="#000"
                 android:layout_marginBottom="20sp"
                 android:id="@+id/userName"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="phone"
+                android:textColor="#000"
                 android:layout_marginBottom="20sp"
                 android:id="@+id/userPhone"/>
         </LinearLayout>

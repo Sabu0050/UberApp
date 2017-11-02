@@ -341,16 +341,16 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
                     //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(dataSnapshot.child("name")!=null){
-                        mDriverName.setText(dataSnapshot.child("name").toString());
+                        mDriverName.setText("Name: "+dataSnapshot.child("name").getValue().toString());
                     }
                     if(dataSnapshot.child("phone")!=null){
-                        mDriverPhone.setText(dataSnapshot.child("phone").toString());
+                        mDriverPhone.setText("Contact: "+dataSnapshot.child("phone").getValue().toString());
                     }
                     if(dataSnapshot.child("carNumber")!=null){
-                        mDriverCarNumber.setText(dataSnapshot.child("carNumber").toString());
+                        mDriverCarNumber.setText("Car Number: "+dataSnapshot.child("carNumber").getValue().toString());
                     }
                     if(dataSnapshot.child("profileImageUrl")!=null){
-                        Glide.with(getApplication()).load(dataSnapshot.child("profileImageUrl").toString()).into(mDriverProfileImage);
+                        Glide.with(getApplication()).load(dataSnapshot.child("profileImageUrl").getValue().toString()).into(mDriverProfileImage);
                     }
                     int ratingSum = 0;
                     int ratingTotalNumbers = 0;
