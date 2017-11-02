@@ -78,14 +78,24 @@ public class DriverRegistration extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 final String email = mEmail.getText().toString();
                 final  String password = mPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(DriverRegistration.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(DriverRegistration.this,"Log In Fail",Toast.LENGTH_SHORT).show();
-                        }
+                //check for valid email and password
+                if (email.isEmpty() || password.isEmpty()) {
+                    if (email.isEmpty()) {
+                        Toast.makeText(DriverRegistration.this,"Email can not be empty",Toast.LENGTH_SHORT).show();
                     }
-                });
+                    if (password.isEmpty()) {
+                        Toast.makeText(DriverRegistration.this,"Password can not be empty",Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(DriverRegistration.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(!task.isSuccessful()){
+                                Toast.makeText(DriverRegistration.this,"Log In Fail",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
      }
