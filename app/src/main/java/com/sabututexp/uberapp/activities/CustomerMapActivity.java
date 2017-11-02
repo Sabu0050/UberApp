@@ -361,7 +361,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                     }
                     if(ratingTotalNumbers != 0){
                         ratingAvg = ratingSum/ratingTotalNumbers;
-                        mRatingBar.setRating(ratingAvg);
+                        mRatingBar.setRating(ratingAvg );
                     }
 
                 }
